@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insect Animation for HW2</title>
+
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+<script type="module">
+    import * as THREE from "https://threejs.org/build/three.module.js";
+    import { OrbitControls } from "https://threejs.org/examples/jsm/controls/OrbitControls.js";
+
+    var scene, renderer, camera, controls;
+    var cameraCenter = new THREE.Vector3();
+    var cameraHorizontalLimit = 50;
+    var cameraVerticalLimit = 50;
+    var mouse = new THREE.Vector2();
+    var pi = Math.PI;
+
+    init();
+    animate();
+
+    function init() {
+        renderer = new THREE.WebGLRenderer({antialias:true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+        camera.position.y = 10;
+        camera.position.z = 30;
+        camera.position.x = 0;
+        camera.lookAt(new THREE.Vector3(0,0,0));
+
+        controls = new OrbitControls( camera, renderer.domElement );
+
+
+        window.addEventListener('resize', onWindowResize, false);
+
+        // Ambient props.
+        var color = new THREE.Color(0.2, 0.2, 0.2);
+        var ambient = new THREE.AmbientLight(color.getHex());
+        scene.add(ambient);
+
+        // Sphere props
+        // var geometry = new THREE.SphereGeometry(10, 320, 320);
+        // var material = new THREE.MeshPhongMaterial({
+        //     color: new THREE.Color('red')
+        // });
+        // var sphere = new THREE.Mesh(geometry, material);
+        // sphere.position.set(0,0,0)
+        // scene.add(sphere);
+
+        // body of the spider
+        const radius = 1;
+        const sphereGeometry = new THREE.SphereGeometry(radius);
+
+        // arm
+        const armRadiusTop = 0.1;
+        const armRadiusBottom = 0.1;
+        const armHeight = 1;
+        const cylinderGeometry = new THREE.CylinderGeometry(armRadiusTop, armRadiusBottom, armHeight);
+
+        // materials 
+        const material = new THREE.MeshPhongMaterial({color: 0xffff66}); 
+        const material2 = new THREE.MeshPhongMaterial({color: 0xff99cc});
+
+        const spiderBody = new THREE.Mesh(sphereGeometry, material);
+        scene.add(spiderBody);
+
+        function createLeg(){
+            const upperLeg = new THREE.Mesh(cylinderGeometry, material2);
+            upperLeg.translateX(-1)
+            upperLeg.rotateZ(1.4);
+
+            const lowerLeg = new THREE.Mesh(cylinderGeometry, material); 
+            lowerLeg.translateY(0.6);
+            lowerLeg.translateX(-0.45);
+            lowerLeg.rotateZ(1.3);
+
+            upperLeg.add(lowerLeg);
+            return [upperLeg, lowerLeg];
+        }
+
+        // left 
+        var leg = createLeg();
+        const upperLeg1 = leg[0], lowerLeg1 = leg[1];
+
+        var leg = createLeg();
+        const upperLeg2 = leg[0], lowerLeg2 = leg[1]; // front 
+
+        var leg = createLeg();
+        const upperLeg3 = leg[0], lowerLeg3 = leg[1]; // back
+
+        // right 
+        var leg = createLeg();
+        const upperLeg4 = leg[0], lowerLeg4 = leg[1];
+
+        var leg = createLeg();
+        const upperLeg5 = leg[0], lowerLeg5 = leg[1]; // front 
+
+        var leg = createLeg();
+        const upperLeg6 = leg[0], lowerLeg6 = leg[1]; // back
+
+        upperLeg2.rotateX(30* (pi/180));
+        upperLeg2.translateZ(0.5);
+
+        upperLeg3.rotateX(-30* (pi/180));
+        upperLeg3.translateZ(-0.5);
+
+        upperLeg4.rotateX(180*(pi/180));
+        upperLeg4.translateY(2);
+        upperLeg4.translateX(0.3);
+        upperLeg4.rotateZ(-10* (pi/180));
+
+        upperLeg5.rotateX(180*(pi/180));
+        upperLeg5.translateY(2);
+        upperLeg5.translateX(0.3);
+        upperLeg5.rotateZ(-10* (pi/180));
+        upperLeg5.rotateX(30* (pi/180));
+        upperLeg5.translateZ(0.5);
+
+        upperLeg6.rotateX(180*(pi/180));
+        upperLeg6.translateY(2);
+        upperLeg6.translateX(0.3);
+        upperLeg6.rotateZ(-10* (pi/180));
+        upperLeg6.rotateX(-30* (pi/180));
+        upperLeg6.translateZ(-0.5);
+
+        scene.add(spiderBody);
+        spiderBody.add(upperLeg1);
+        spiderBody.add(upperLeg2);
+        spiderBody.add(upperLeg3);
+        spiderBody.add(upperLeg4);
+        spiderBody.add(upperLeg5);
+        spiderBody.add(upperLeg6);
+
+        // Light props
+        var pointLight = new THREE.PointLight(0xFFFFFF);
+        pointLight.position.x = 50;
+        pointLight.position.y = 50;
+        scene.add(pointLight);
+
+        // XZ Grid props
+        var gridXZ = new THREE.GridHelper(100, 10);
+        gridXZ.setColors( new THREE.Color(0xff0000), new THREE.Color(0xffffff) );
+        scene.add(gridXZ);
+
+        // Axis guideline
+        var axesHelper = new THREE.AxesHelper(5);
+        scene.add(axesHelper);
+    }
+
+    function onWindowResize(){
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+        requestAnimationFrame( animate );
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>
+
+
+
