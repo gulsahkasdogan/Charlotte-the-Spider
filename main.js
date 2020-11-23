@@ -410,11 +410,11 @@ window.onload = function init() {
     gl.enableVertexAttribArray( vPosition );
 
     document.getElementById("slide_torso").onchange = function() {
-        theta[torsoId ] = event.srcElement.value;
+        theta[torsoId ] = this.value;
         initNodes(torsoId);
     };
     document.getElementById("slide_head1").onchange = function() {
-        theta[head1Id] = event.srcElement.value;
+        theta[head1Id] = this.value;
         initNodes(head1Id);
     };
 
