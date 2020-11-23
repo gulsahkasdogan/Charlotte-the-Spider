@@ -46,7 +46,7 @@ var rightLowerArm2Id = 13;
 var head2Id = 14;
 
 var torsoHeight = 5.0;
-var torsoWidth = 1.0;
+var torsoWidth = 3.0;
 var upperArmHeight = 3.0;
 var lowerArmHeight = 2.0;
 var upperArmWidth  = 0.5;
@@ -62,7 +62,7 @@ var numNodes = 14; // 10
 var numAngles = 15; // 11
 var angle = 0;
 
-var theta = [0, 0, 0, 0, 0, 0, 180, 0, 180, 0, 0, 0, 0, 0, 0];
+var theta = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 var numVertices = 24;
 
@@ -131,6 +131,8 @@ function initNodes(Id) {
         case leftUpperArmId:
 
             m = translate(-(torsoWidth+upperArmWidth), 0.9*torsoHeight, 0.0);
+            m = mult(m, rotate(90, 1, 0, 0));
+            m = mult(m, rotate(180, 0, 1, 0));
             m = mult(m, rotate(theta[leftUpperArmId], 1, 0, 0));
             figure[leftUpperArmId] = createNode( m, leftUpperArm, rightUpperArmId, leftLowerArmId );
             break;
@@ -138,6 +140,8 @@ function initNodes(Id) {
         case rightUpperArmId:
 
             m = translate(torsoWidth+upperArmWidth, 0.9*torsoHeight, 0.0);
+            m = mult(m, rotate(90, 1, 0, 0));
+            m = mult(m, rotate(-180, 0, 1, 0));
             m = mult(m, rotate(theta[rightUpperArmId], 1, 0, 0));
             figure[rightUpperArmId] = createNode( m, rightUpperArm, leftUpperArm2Id, rightLowerArmId );
             break;
@@ -145,6 +149,8 @@ function initNodes(Id) {
         // upper middle left 
         case leftUpperArm2Id:
             m = translate(-(torsoWidth+upperArmWidth), 0.5*torsoHeight, 0.0);
+            m = mult(m, rotate(90, 1, 0, 0));
+            m = mult(m, rotate(-90, 0, 1, 0));
             m = mult(m, rotate(theta[leftUpperArm2Id], 1, 0, 0));
             figure[leftUpperArm2Id] = createNode( m, leftUpperArm2, rightUpperArm2Id, leftLowerArm2Id);
             break;
@@ -152,6 +158,8 @@ function initNodes(Id) {
         // upper middle right 
         case rightUpperArm2Id:
             m = translate((torsoWidth+upperArmWidth), 0.5*torsoHeight, 0.0);
+            m = mult(m, rotate(90, 1, 0, 0));
+            m = mult(m, rotate(90, 0, 1, 0));
             m = mult(m, rotate(theta[rightUpperArm2Id], 1, 0, 0));
             figure[rightUpperArm2Id] = createNode( m, rightUpperArm2, leftUpperLegId, rightLowerArm2Id);
             break;
@@ -159,6 +167,7 @@ function initNodes(Id) {
         case leftUpperLegId:
 
             m = translate(-(torsoWidth+upperLegWidth), 0.1*upperLegHeight, 0.0);
+            m = mult(m, rotate(90, 1, 0, 0));
             m = mult(m , rotate(theta[leftUpperLegId], 1, 0, 0));
             figure[leftUpperLegId] = createNode( m, leftUpperLeg, rightUpperLegId, leftLowerLegId );
             break;
@@ -166,6 +175,7 @@ function initNodes(Id) {
         case rightUpperLegId:
 
             m = translate(torsoWidth+upperLegWidth, 0.1*upperLegHeight, 0.0);
+            m = mult(m, rotate(90, 1, 0, 0));
             m = mult(m, rotate(theta[rightUpperLegId], 1, 0, 0));
             figure[rightUpperLegId] = createNode( m, rightUpperLeg, null, rightLowerLegId );
             break;
@@ -188,6 +198,7 @@ function initNodes(Id) {
         case leftLowerArm2Id:
             m = translate(0.0, upperArmHeight, 0.0);
             m = mult(m, rotate(theta[leftLowerArm2Id], 1, 0, 0));
+            m = mult(m, rotate(90, 0, 1, 0));
             figure[leftLowerArm2Id] = createNode( m, leftLowerArm2, null, null );
             break;
 
