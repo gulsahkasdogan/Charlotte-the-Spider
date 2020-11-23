@@ -1,0 +1,23 @@
+body { margin: 0; }
+canvas { display: block; }
+.content{
+    display:flex;
+}
+.canvasdiv{
+    width: 512px;
+    margin:0;
+    padding:0;
+}
+.controls>div{
+    display:flex;
+    max-width: 45%;
+    margin:20px;
+}
+.control_item{
+}
+.controls_grid{display:flex;}
+.controls_grid>div>div{
+
+    min-width: 155px;
+    min-height: 125px;
+}

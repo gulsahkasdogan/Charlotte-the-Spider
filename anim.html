@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insect Animation for HW2</title>
+
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+<script type="module">
+    import * as THREE from "https://threejs.org/build/three.module.js";
+    import { OrbitControls } from "https://threejs.org/examples/jsm/controls/OrbitControls.js";
+
+    var scene, renderer, camera, controls
+    var cameraCenter = new THREE.Vector3();
+    var cameraHorizontalLimit = 50;
+    var cameraVerticalLimit = 50;
+    var mouse = new THREE.Vector2();
+
+    init();
+    animate();
+
+    function init() {
+        renderer = new THREE.WebGLRenderer({antialias:true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+        camera.position.y = 10;
+        camera.position.z = 30;
+        camera.position.x = 0;
+        camera.lookAt(new THREE.Vector3(0,0,0));
+
+        controls = new OrbitControls( camera, renderer.domElement );
+
+
+        window.addEventListener('resize', onWindowResize, false);
+
+        // instantiate a loader
+        var loader = new THREE.TextureLoader();
+        loader.crossOrigin = '';
+        var skygeo = new THREE.SphereGeometry(2000, 25, 25);
+        var texture = loader.load("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/a57581b5-938b-4dc4-b6af-64d51df7f8d4/d6vv4hs-5c92c1f1-945e-446a-befb-087adc8ae8bb.jpg");
+        var skymat = new THREE.MeshPhongMaterial({
+            map: texture,
+        });
+        var sky = new THREE.Mesh(skygeo, skymat);
+        sky.material.side = THREE.BackSide;
+        scene.add(sky)
+
+        // Ambient props.
+        var color = new THREE.Color(0.2, 0.2, 0.2);
+        var ambient = new THREE.AmbientLight(color.getHex());
+        scene.add(ambient);
+
+        // Sphere props
+        var geometry = new THREE.SphereGeometry(10, 320, 320);
+        var material = new THREE.MeshPhongMaterial({
+            color: new THREE.Color('red')
+        });
+        var sphere = new THREE.Mesh(geometry, material);
+        sphere.position.set(0,0,0)
+        scene.add(sphere);
+
+        // Light props
+        var pointLight = new THREE.PointLight(0xFFFFFF);
+        pointLight.position.z = 150;
+        pointLight.position.x = -75;
+        pointLight.position.y = 250;
+        scene.add(pointLight);
+
+        // XZ Grid props
+        /*
+        var gridXZ = new THREE.GridHelper(100, 10);
+        gridXZ.setColors( new THREE.Color(0xff0000), new THREE.Color(0xffffff) );
+        scene.add(gridXZ);*/
+
+        var xzgeo = new THREE.PlaneBufferGeometry(2000, 2000, 8, 8);
+        loader = new THREE.TextureLoader();
+        loader.crossOrigin = '';
+        var xztexture = loader.load("https://2.bp.blogspot.com/-2cPPYjmvJ-A/TtZSaHWPc2I/AAAAAAAAAYE/4QWbr7v4cEM/s1600/beachsand.jpg");
+        xztexture.wrapS = THREE.RepeatWrapping;
+        xztexture.wrapT = THREE.RepeatWrapping;
+        xztexture.repeat.set( 40, 40 );
+
+        var xzmat = new THREE.MeshBasicMaterial({
+            map: xztexture,
+            side: THREE.DoubleSide
+        });
+
+        var xzplane = new THREE.Mesh(xzgeo, xzmat);
+        xzplane.rotateX( - Math.PI / 2);
+
+        scene.add(xzplane);
+
+        // Axis guideline
+        var axesHelper = new THREE.AxesHelper(5);
+        scene.add(axesHelper);
+    }
+
+    function onWindowResize(){
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+        requestAnimationFrame( animate );
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>
+
+
+
