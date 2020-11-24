@@ -83,6 +83,7 @@ var modelViewLoc;
 
 var pointsArray = [];
 var normalsArray = [];
+var colors = [[ 0.0, 1.0, 0.0, 1.0 ]];
 
 var lightPosition = vec4(0.0, 1.0, 1.0, 0.0 );
 var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
@@ -378,8 +379,8 @@ function rightLowerLeg() {
 
 function ground(){
     var colorCode = 522707; // hex
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, -1.5 *(lowerLegHeight + upperLegHeight), 0.0) );
-    instanceMatrix = mult(instanceMatrix, scale4(8*torsoWidth, torsoHeight, 0.01) )
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, -1.65 *(lowerLegHeight + upperLegHeight), 0.0) );
+    instanceMatrix = mult(instanceMatrix, scale4(8*torsoWidth, 2*torsoHeight, 0.01) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLES, 4*i, 36);
 }
@@ -405,7 +406,6 @@ function quad(a, b, c, d) {
     normalsArray.push(normal);
 }
 
-
 function cube()
 {
     quad( 1, 0, 3, 2 );
@@ -415,7 +415,6 @@ function cube()
     quad( 4, 5, 6, 7 );
     quad( 5, 4, 0, 1 );
 }
-
 
 window.onload = function init() {
 
