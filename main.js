@@ -248,8 +248,7 @@ function initNodes(Id) {
             m = mult(m, rotate(theta[rightLowerLegId], 1, 0, 0));
             figure[rightLowerLegId] = createNode( m, rightLowerLeg, null, null );
             break;
-
-
+        
     }
 
 }
@@ -377,6 +376,14 @@ function rightLowerLeg() {
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLES, 4*i, 36);
 }
 
+function ground(){
+    var colorCode = 522707; // hex
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, -1.5 *(lowerLegHeight + upperLegHeight), 0.0) );
+    instanceMatrix = mult(instanceMatrix, scale4(8*torsoWidth, torsoHeight, 0.01) )
+    gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+    for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLES, 4*i, 36);
+}
+
 function quad(a, b, c, d) {
     var t1 = subtract(vertices[b], vertices[a]);
     var t2 = subtract(vertices[c], vertices[b]);
@@ -418,7 +425,7 @@ window.onload = function init() {
     if ( !gl ) { alert( "WebGL isn't available" ); }
 
     gl.viewport( 0, 0, canvas.width, canvas.height );
-    gl.clearColor( 1.0, 1.0, 1.0, 1.0 );
+    gl.clearColor( 219/255, 255/255, 254/255, 1.0 );
 
     gl.enable(gl.DEPTH_TEST);
 
@@ -619,6 +626,7 @@ var render = function() {
     rotateUnit();
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     traverse(torsoId);
+    ground();
     requestAnimFrame(render);
 }
 
