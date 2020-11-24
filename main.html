@@ -86,6 +86,19 @@ void main(){
             <button id="initial_pose">Initial Pose</button>
             <button id="neutral_pose">Neutral Pose</button>
         </div>
+        <div class="bottom_controls">
+            <div class="download">
+                <p class="filedesc">Export Frame</p><br>
+                <button id="saveconfig">Save & Download Current Frame</button>
+            </div>
+            <div class="upload">
+                <p class="filedesc">Import Animation</p><br>
+                <input type="file" accept="application/JSON" id="uploadconfig">
+                <button id="uploadbutton">Upload Animation</button>
+                <span id="uploadmsg" style="display:none">Error.</span>
+                <button id="animatebutton">Run Animation</button>
+            </div>
+        </div>
     </div>
 
     <div class="controls_grid">

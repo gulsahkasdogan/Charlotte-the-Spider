@@ -64,6 +64,10 @@ var angle = 0;
 
 
 var theta = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var thetaArr = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var animFrameCounter = 0;
+var animFrameLen = thetaArr.length - 1;
+var animToggle = false;
 
 var numVertices = 24;
 
@@ -556,6 +560,52 @@ window.onload = function init() {
         for(i=0; i<numNodes; i++) initNodes(i);
     };
 
+    // Code segment for creating a downloadable JSON config.
+    var downloadButton = document.getElementById("saveconfig");
+    downloadButton.addEventListener("click", function () {
+        var content = "";
+        var filename = "SpiderFrame.json";
+        var config = {theta: theta};
+        content = JSON.stringify(config);
+        download(filename, content);
+    });
+
+    // Code segment for uploading JSON config.
+    var uploadInput = document.getElementById("uploadconfig");
+    var uploadButton = document.getElementById("uploadbutton");
+    var animateButton = document.getElementById("animatebutton");
+    var uploadMsg = document.getElementById("uploadmsg");
+    uploadButton.addEventListener("click", function(){
+        var file = uploadInput.files[0];
+        if(file){
+            var reader = new FileReader(); // File reader to read the file
+            var providedArr;
+            reader.addEventListener('load', function() {
+                var result = JSON.parse(reader.result); // Parse the result into an object
+
+                providedArr = result.thetaArr;
+
+                if(providedArr){
+                    thetaArr = providedArr;
+                    animFrameLen = thetaArr.length -1;
+                    animFrameCounter = 0;
+                    uploadMsg.style.display = "none";
+                } else {
+                    uploadMsg.innerText = "This is not a suitable config!";
+                    uploadMsg.style.display = "block";
+                }
+            });
+            reader.readAsText(file);
+        } else {
+            uploadMsg.innerText = "No file has been provided!";
+            uploadMsg.style.display = "block";
+        }
+    });
+
+    animateButton.addEventListener("click", function(){
+        animToggle = !animToggle;
+    });
+
     for(i=0; i<numNodes; i++) initNodes(i);
 
     render();
@@ -563,6 +613,8 @@ window.onload = function init() {
 
 
 var render = function() {
+    if(animToggle)
+        run_anim();
     rotateUnit();
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     traverse(torsoId);
@@ -586,4 +638,26 @@ var rotateUnit = function(){
         }
         $('#slider0').roundSlider("option", "value", theta[torsoId]);
     }
+}
+
+function download(filename, text) {
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+function run_anim(){
+    animFrameCounter++;
+    if(animFrameCounter > animFrameLen)
+        animFrameCounter = 0
+    theta = thetaArr[animFrameCounter];
+    console.log(animFrameCounter + " : " + theta);
+    for(i=0; i<numNodes; i++) initNodes(i);
 }
