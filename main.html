@@ -82,6 +82,10 @@ void main(){
             <button id="rotate_toggle">Rotate toggle</button>
             <button id="rotate_right">Rotate right</button>
         </div>
+        <div class="bottom_controls">
+            <button id="initial_pose">Initial Pose</button>
+            <button id="neutral_pose">Neutral Pose</button>
+        </div>
     </div>
 
     <div class="controls_grid">
@@ -241,7 +245,8 @@ void main(){
             handleSize: "12,10",
             handleShape: "square",
             sliderType: "min-range",
-            rangeColor: "#FF0000"
+            rangeColor: "#FF0000",
+            animation: false
         });
         $(this).next().hide();
         $(this).on("change", function (e) {
@@ -251,5 +256,25 @@ void main(){
             $(this).next().val(e.value).change();
         });
     });
+    $('#neutral_pose').on("click", function(){
+        $("input[id*='upper']").each(function (i, el) {
+            $(this).prev().roundSlider("option", "value", 60);
+            $(this).val(60);
+        });
+        $("input[id*='lower']").each(function (i, el) {
+            $(this).prev().roundSlider("option", "value", -45);
+            $(this).val(-45);
+        });
+    })
+    $('#initial_pose').on("click", function(){
+        $("input[id*='upper']").each(function (i, el) {
+            $(this).prev().roundSlider("option", "value", 0);
+            $(this).val(0);
+        });
+        $("input[id*='lower']").each(function (i, el) {
+            $(this).prev().roundSlider("option", "value", 0);
+            $(this).val(0);
+        });
+    })
 </script>
 </html>

@@ -151,7 +151,7 @@ function initNodes(Id) {
 
         case leftUpperArmId:
 
-            m = translate(-(torsoWidth+upperArmWidth), 0.9*torsoHeight, 0.0);
+            m = translate(-(torsoWidth/2+upperArmWidth), 0.9*torsoHeight, 0.0);
             m = mult(m, rotate(90, 1, 0, 0));
             m = mult(m, rotate(180, 0, 1, 0));
             m = mult(m, rotate(theta[leftUpperArmId], 1, 0, 0));
@@ -160,7 +160,7 @@ function initNodes(Id) {
 
         case rightUpperArmId:
 
-            m = translate(torsoWidth+upperArmWidth, 0.9*torsoHeight, 0.0);
+            m = translate(torsoWidth/2+upperArmWidth, 0.9*torsoHeight, 0.0);
             m = mult(m, rotate(90, 1, 0, 0));
             m = mult(m, rotate(-180, 0, 1, 0));
             m = mult(m, rotate(theta[rightUpperArmId], 1, 0, 0));
@@ -169,7 +169,7 @@ function initNodes(Id) {
 
         // upper middle left 
         case leftUpperArm2Id:
-            m = translate(-(torsoWidth+upperArmWidth), 0.5*torsoHeight, 0.0);
+            m = translate(-(torsoWidth/2+upperArmWidth), 0.5*torsoHeight, 0.0);
             m = mult(m, rotate(90, 1, 0, 0));
             m = mult(m, rotate(-90, 0, 1, 0));
             m = mult(m, rotate(theta[leftUpperArm2Id], 1, 0, 0));
@@ -178,7 +178,7 @@ function initNodes(Id) {
 
         // upper middle right 
         case rightUpperArm2Id:
-            m = translate((torsoWidth+upperArmWidth), 0.5*torsoHeight, 0.0);
+            m = translate((torsoWidth/2+upperArmWidth), 0.5*torsoHeight, 0.0);
             m = mult(m, rotate(90, 1, 0, 0));
             m = mult(m, rotate(90, 0, 1, 0));
             m = mult(m, rotate(theta[rightUpperArm2Id], 1, 0, 0));
@@ -187,7 +187,7 @@ function initNodes(Id) {
 
         case leftUpperLegId:
 
-            m = translate(-(torsoWidth+upperLegWidth), 0.1*upperLegHeight, 0.0);
+            m = translate(-(torsoWidth/2+upperLegWidth), 0.1*upperLegHeight, 0.0);
             m = mult(m, rotate(90, 1, 0, 0));
             m = mult(m , rotate(theta[leftUpperLegId], 1, 0, 0));
             figure[leftUpperLegId] = createNode( m, leftUpperLeg, rightUpperLegId, leftLowerLegId );
@@ -195,7 +195,7 @@ function initNodes(Id) {
 
         case rightUpperLegId:
 
-            m = translate(torsoWidth+upperLegWidth, 0.1*upperLegHeight, 0.0);
+            m = translate(torsoWidth/2+upperLegWidth, 0.1*upperLegHeight, 0.0);
             m = mult(m, rotate(90, 1, 0, 0));
             m = mult(m, rotate(theta[rightUpperLegId], 1, 0, 0));
             figure[rightUpperLegId] = createNode( m, rightUpperLeg, null, rightLowerLegId );
@@ -547,6 +547,14 @@ window.onload = function init() {
     document.getElementById("rotate_right").onclick = function() {
         rotate_isright = true;
     };
+    document.getElementById("neutral_pose").onclick = function() {
+        theta = [theta[torsoId], 0, 60, -45, 60, -45, 60, -45, 60, -45, 60, -45, 60, -45, 0];
+        for(i=0; i<numNodes; i++) initNodes(i);
+    };
+    document.getElementById("initial_pose").onclick = function() {
+        theta = [theta[torsoId], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        for(i=0; i<numNodes; i++) initNodes(i);
+    };
 
     for(i=0; i<numNodes; i++) initNodes(i);
 
@@ -576,5 +584,6 @@ var rotateUnit = function(){
             }
             initNodes(torsoId);
         }
+        $('#slider0').roundSlider("option", "value", theta[torsoId]);
     }
 }
