@@ -65,6 +65,7 @@ var angle = 0;
 
 var theta = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var thetaArr = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var sliderCaseMatch = [3,11,7,2,10,6,14,0,4,12,8,5,13,9];
 var animFrameCounter = 0;
 var animFrameLen = thetaArr.length - 1;
 var animToggle = false;
@@ -657,7 +658,12 @@ function run_anim(){
     animFrameCounter++;
     if(animFrameCounter > animFrameLen)
         animFrameCounter = 0
+    var old_torso = theta[torsoId]; // keeps the rotation.
     theta = thetaArr[animFrameCounter];
-    console.log(animFrameCounter + " : " + theta);
+    theta[torsoId] = old_torso;
+    $('.slider').each(function(i, el) {
+        $(this).roundSlider("option", "value", theta[sliderCaseMatch[i]]);
+    });
     for(i=0; i<numNodes; i++) initNodes(i);
 }
+
