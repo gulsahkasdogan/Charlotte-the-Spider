@@ -1,3 +1,4 @@
+var delay = 0;
 var rotate_toggle = false;
 var rotate_isright = true; // t: right, f: left
 var canvas;
@@ -609,6 +610,10 @@ window.onload = function init() {
         }
     });
 
+    document.getElementById("framedelay").onchange = function() {
+        delay = this.value;
+    };
+
     animateButton.addEventListener("click", function(){
         animToggle = !animToggle;
     });
@@ -618,12 +623,13 @@ window.onload = function init() {
     render();
 }
 
-
-var render = function() {
-    if(animToggle)
+var render =  async function () {
+    if (animToggle) {
+        await new Promise(r => setTimeout(r, delay));
         run_anim();
+    }
     rotateUnit();
-    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     traverse(torsoId);
     ground();
     requestAnimFrame(render);
