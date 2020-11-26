@@ -2,6 +2,14 @@ body { margin: 0; }
 canvas { display: block; }
 .content{
     display:flex;
+    background: rgb(22,128,142);
+    background: linear-gradient(305deg, rgba(22,128,142,1) 0%, rgba(114,71,133,1) 100%);
+    color:white;
+    min-height:100%;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size:8pt;
+
 }
 .canvasdiv{
     width: 512px;
@@ -15,11 +23,45 @@ canvas { display: block; }
 }
 .control_item{
 }
-.controls_grid{display:flex;}
-.controls_grid>div>div{
+.controls_grid{
+    margin:50px;
+    padding: 20px;
+    border: 2px #ccc solid;
+    border-radius: 50px;
+}
 
+.controls_grid > div{
+
+    display:flex;
+    width:100%;
+}
+
+.bottom_controls>div{
+    margin:10px;
+    padding: 20px;
+    border: 2px #ccc solid;
+    border-radius: 50px;
+}
+
+#rotationcontrol, #posecontrols{
+    max-width: 500px;
+    display:flex;
+    justify-content: space-around;
+    margin:10px;
+    padding: 20px;
+    border: 2px #ccc solid;
+    border-radius: 50px;
+}
+.controls_grid>div>div>div{
     min-width: 155px;
     min-height: 125px;
+}
+
+.filedesc{
+    margin:2px;
+    text-align: center;
+    font-weight:bold;
+    font-size:12pt;
 }
 
 .fileoptions{

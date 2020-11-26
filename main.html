@@ -2,6 +2,8 @@
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet" />
 
 <script id="vertex-shader" type="x-shader/x-vertex">
@@ -77,12 +79,14 @@ void main(){
         <canvas id="gl-canvas" width="512" height="512">
             Oops ... your browser doesn't support the HTML5 canvas element
         </canvas>
-        <div class="bottom_controls">
+        <div class="bottom_controls" id="rotationcontrol">
+            <p class="filedesc">Rotation Controls</p><br>
             <button id="rotate_left">Rotate left</button>
             <button id="rotate_toggle">Rotate toggle</button>
             <button id="rotate_right">Rotate right</button>
         </div>
-        <div class="bottom_controls">
+        <div class="bottom_controls" id="posecontrols">
+            <p class="filedesc">Pose Controls</p><br>
             <button id="initial_pose">Initial Pose</button>
             <button id="neutral_pose">Neutral Pose</button>
         </div>
@@ -102,6 +106,8 @@ void main(){
     </div>
 
     <div class="controls_grid">
+        <div style="justify-content: center"><p class="filedesc">Spider Angle Controls</p></div>
+        <div>
         <div>
             <div class="control_item">
                 <p class="controls_desc">left lower arm1 angle</p>
@@ -145,7 +151,7 @@ void main(){
                 <div class="slider" id="slider13">
                 </div>
                 <input id="slide_leftupperarm2" type="range"
-                       min="-180" max="180" step="10" value="0"
+                       min="0" max="180" step="10" value="0"
                 />
             </div>
             <div class="control_item">
@@ -243,6 +249,7 @@ void main(){
                 />
             </div>
         </div>
+        </div>
     </div>
 </div>
 </body>
@@ -258,7 +265,7 @@ void main(){
             handleSize: "12,10",
             handleShape: "square",
             sliderType: "min-range",
-            rangeColor: "#FF0000",
+            rangeColor: "#990066",
             animation: false
         });
         $(this).next().hide();
@@ -269,6 +276,10 @@ void main(){
             $(this).next().val(e.value).change();
         });
     });
+
+    $('#slider13').roundSlider({"min": 0});
+    $('#slider14').roundSlider({"min": 0});
+
     $('#neutral_pose').on("click", function(){
         $("input[id*='upper']").each(function (i, el) {
             $(this).prev().roundSlider("option", "value", 60);
