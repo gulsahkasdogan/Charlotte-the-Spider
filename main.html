@@ -100,7 +100,7 @@ void main(){
                 <input type="file" accept="application/JSON" id="uploadconfig">
                 <button id="uploadbutton">Upload Animation</button>
                 <span id="uploadmsg" style="display:none">Error.</span>
-                <button id="animatebutton">Run Animation</button>
+                <button id="animatebutton">Run/Stop Animation</button>
                 <p class="filedesc" style="justify-content: left">Animation Speed</p><br>
                 <input id="framedelay" type="range" min="0" max="1000" step="20" value="0" style="width:100%;">
             </div>
@@ -172,7 +172,7 @@ void main(){
                        min="-180" max="180" step="10" value="0"
                        hidden/>
                 <div class="control_item">
-                    <p class="controls_desc">head2 angle</p>
+                    <p class="controls_desc">head angle</p>
                     <div class="slider" id="slider10">
                     </div>
                     <input id="slide_head2" type="range"
